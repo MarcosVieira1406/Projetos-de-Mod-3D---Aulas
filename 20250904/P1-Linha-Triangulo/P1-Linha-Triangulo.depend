@@ -18,3 +18,10 @@
 	<GL/glu.h>
 	<stdlib.h>
 
+1758027070 source:c:\users\mesur\onedrive\documentos\github\projetos-de-mod-3d---aulas\20250904\p1-linha-triangulo\main.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	<iostream>
+
