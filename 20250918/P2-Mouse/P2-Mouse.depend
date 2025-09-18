@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1758236749 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250916\trabalhin-will\main.cpp
+1758238285 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250918\p2-mouse\main.cpp
 	<GL/glut.h>
-	<stdio.h>
 	<stdlib.h>
-	<math.h>
+	<stdio.h>
+	<time.h>
+	<iostream>
 
 1758232819 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\glut.h
 	"freeglut_std.h"

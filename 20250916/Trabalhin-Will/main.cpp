@@ -3,44 +3,31 @@
 #include <stdlib.h>
 #include <math.h>
 
+// ------------------------ Transformações ------------------------
 float scaleVal = 1.0f;
 float angleDeg = 0.0f;
 float transX = 0.0f, transY = 0.0f;
 
+// ------------------------ Letras e espaçamento ------------------------
 const float letterW = 0.6f;
 const float letterH = 2.0f;
 const float spacing = 0.15f;
-const int nLetters = 6;
+int nLetters = 6;  // número de letras do nome
 
-const float totalWidth = 6 * letterW + (6 - 1) * spacing;
-const float halfTotalWidth = (6 * letterW + (6 - 1) * spacing) / 2.0f;
-const float halfHeight = letterH / 2.0f;
+float halfHeight = letterH / 2.0f;
 
+// ------------------------ Limites do mundo ------------------------
 const float worldLimit = 3.0f;
 
+// ------------------------ Cores ------------------------
 const float colorR = 0.0f, colorG = 1.0f, colorB = 0.0f;
 const float bgR = 0.0f, bgG = 0.0f, bgB = 0.7f;
 
+// ------------------------ Escala mínima e máxima ------------------------
 const float minScale = 0.2f;
 const float maxScale = 5.0f;
 
-void clampTranslation(void) {
-    float halfWScaled = halfTotalWidth * scaleVal;
-    float halfHScaled = halfHeight * scaleVal;
-
-    float maxTx = worldLimit - halfWScaled;
-    if (maxTx < 0.0f) maxTx = 0.0f;
-
-    float maxTy = worldLimit - halfHScaled;
-    if (maxTy < 0.0f) maxTy = 0.0f;
-
-    if (transX > maxTx) transX = maxTx;
-    if (transX < -maxTx) transX = -maxTx;
-
-    if (transY > maxTy) transY = maxTy;
-    if (transY < -maxTy) transY = -maxTy;
-}
-
+// ------------------------ Funções de desenho das letras ------------------------
 void drawM(void) {
     float w = letterW, h = letterH;
     float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
@@ -107,43 +94,45 @@ void drawS(void) {
     glEnd();
 }
 
+// ------------------------ Função de desenho do nome ------------------------
 void drawName(void) {
     glColor3f(colorR, colorG, colorB);
     glLineWidth(6.0f);
 
-    float startX = -halfTotalWidth + letterW/2.0f;
+    // Array de funções para as letras
+    void (*letters[])(void) = { drawM, drawA, drawR, drawC, drawO, drawS };
 
-    glPushMatrix();
-        glTranslatef(startX + 0 * (letterW + spacing), 0.0f, 0.0f);
-        drawM();
-    glPopMatrix();
+    float halfTotalWidthDynamic = (nLetters * letterW + (nLetters - 1) * spacing) / 2.0f;
+    float startX = -halfTotalWidthDynamic + letterW/2.0f;
 
-    glPushMatrix();
-        glTranslatef(startX + 1 * (letterW + spacing), 0.0f, 0.0f);
-        drawA();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(startX + 2 * (letterW + spacing), 0.0f, 0.0f);
-        drawR();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(startX + 3 * (letterW + spacing), 0.0f, 0.0f);
-        drawC();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(startX + 4 * (letterW + spacing), 0.0f, 0.0f);
-        drawO();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(startX + 5 * (letterW + spacing), 0.0f, 0.0f);
-        drawS();
-    glPopMatrix();
+    for (int i = 0; i < nLetters; i++) {
+        glPushMatrix();
+            glTranslatef(startX + i * (letterW + spacing), 0.0f, 0.0f);
+            letters[i]();
+        glPopMatrix();
+    }
 }
 
+// ------------------------ Limita a translação para não sair da tela ------------------------
+void clampTranslation(void) {
+    float halfTotalWidthDynamic = (nLetters * letterW + (nLetters - 1) * spacing) / 2.0f;
+    float halfHScaled = halfHeight * scaleVal;
+    float halfWScaled = halfTotalWidthDynamic * scaleVal;
+
+    float maxTx = worldLimit - halfWScaled;
+    if (maxTx < 0.0f) maxTx = 0.0f;
+
+    float maxTy = worldLimit - halfHScaled;
+    if (maxTy < 0.0f) maxTy = 0.0f;
+
+    if (transX > maxTx) transX = maxTx;
+    if (transX < -maxTx) transX = -maxTx;
+
+    if (transY > maxTy) transY = maxTy;
+    if (transY < -maxTy) transY = -maxTy;
+}
+
+// ------------------------ Callbacks ------------------------
 void displayCallback(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -212,7 +201,7 @@ void keyboardCallback(unsigned char key, int x, int y) {
             transY -= 0.15f;
             changed = 1;
             break;
-        case 27:
+        case 27:  // ESC
             scaleVal = 1.0f; angleDeg = 0.0f; transX = 0.0f; transY = 0.0f;
             changed = 1;
             break;
@@ -224,6 +213,7 @@ void keyboardCallback(unsigned char key, int x, int y) {
     }
 }
 
+// ------------------------ Main ------------------------
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);

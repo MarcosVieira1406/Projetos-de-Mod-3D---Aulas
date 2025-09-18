@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="P1-Desenha-linha" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/P1-Desenha-linha" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/bin" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/P1-Desenha-linha" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/bin" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/include" />
+		</Compiler>
+		<Linker>
+			<Add library="freeglut" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="winmm" />
+			<Add library="gdi32" />
+			<Add directory="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/lib" />
+		</Linker>
+		<Unit filename="main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
