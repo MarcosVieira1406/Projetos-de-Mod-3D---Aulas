@@ -77,13 +77,15 @@ static void desenha(void)
 
 void listeningKey (unsigned char tecla, GLint x, GLint y){
     switch(tecla){
-        case '+': escala++;
-            break;
-        case '-': escala--;
+        case '+': escala += 0.1f; break;
+        case '-':
+            escala -= 0.1f;
+            if(escala < 0.1f) escala = 0.1f;
             break;
     }
-    desenha();
+    glutPostRedisplay();
 }
+
 
 int main(int argc, char *argv[])
 {
