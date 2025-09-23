@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1758232819 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250904\p1-linha-triangulo\main.cpp
+1758238285 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250918\p2-mouse\main.cpp
 	<GL/glut.h>
 	<stdlib.h>
 	<stdio.h>
@@ -19,11 +19,4 @@
 	<GL/gl.h>
 	<GL/glu.h>
 	<stdlib.h>
-
-1758027070 source:c:\users\mesur\onedrive\documentos\github\projetos-de-mod-3d---aulas\20250904\p1-linha-triangulo\main.cpp
-	<GL/glut.h>
-	<stdlib.h>
-	<stdio.h>
-	<time.h>
-	<iostream>
 
