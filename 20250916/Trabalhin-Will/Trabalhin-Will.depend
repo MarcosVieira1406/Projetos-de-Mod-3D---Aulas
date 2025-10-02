@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1758926518 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250916\trabalhin-will\main.cpp
+1759442761 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20250916\trabalhin-will\main.cpp
 	<GL/glut.h>
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
 
-1758926518 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\glut.h
+1759442761 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\glut.h
 	"freeglut_std.h"
 
-1758926518 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\freeglut_std.h
+1759442761 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
