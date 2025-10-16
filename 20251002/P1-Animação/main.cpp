@@ -94,7 +94,7 @@ int main(int argc, char** argv)
      glutInit(&argc,argv);
      glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
      glutInitWindowSize(640,480);
-     glutInitWindowPosition(10,10);
+     glutInitWindowPosition(300, 250);
      glutCreateWindow("Animacao");
      glutDisplayFunc(Desenha);
      glutReshapeFunc(AlteraTamanhoJanela);

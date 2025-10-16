@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1760652478 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20251002\p1-animação\main.cpp
+1760653194 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20251002\p1-animação\main.cpp
 	<windows.h>
 	<GL/freeglut.h>
 	<stdio.h>
