@@ -7,8 +7,8 @@ GLfloat y1 = 150.0f;
 GLsizei rsize = 50;
 
 // Vetor de translacao
-GLfloat xstep = 3.0f;
-GLfloat ystep = 3.0f;
+GLfloat xstep = 1.0f;
+GLfloat ystep = 1.0f;
 
 GLfloat windowWidth;
 GLfloat windowHeight;
@@ -55,6 +55,28 @@ void Timer(int value)
     glutTimerFunc(5,Timer, 0);
 }
 
+// Função para detectar clique do mouse
+void GerenciaMouse(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        // Converte coordenadas do mouse (y invertido)
+        GLfloat mouseX = (GLfloat)x;
+        GLfloat mouseY = windowHeight - (GLfloat)y;
+
+        // Verifica se o clique foi dentro do quadrado
+        if (mouseX >= x1 && mouseX <= x1 + rsize &&
+            mouseY >= y1 && mouseY <= y1 + rsize)
+        {
+            printf("\n>>> Clique no QUADRADO! Posicao: (%.0f, %.0f)\n", mouseX, mouseY);
+        }
+        else
+        {
+            printf("\n>>> Clique na TELA! Posicao: (%.0f, %.0f)\n", mouseX, mouseY);
+        }
+    }
+}
+
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
      printf("\n w: %d      h: %d ", w, h);
@@ -76,6 +98,7 @@ int main(int argc, char** argv)
      glutCreateWindow("Animacao");
      glutDisplayFunc(Desenha);
      glutReshapeFunc(AlteraTamanhoJanela);
+     glutMouseFunc(GerenciaMouse);  // Registra a função de callback do mouse
      glutTimerFunc(5, Timer, 0);
      glutMainLoop();
 }
