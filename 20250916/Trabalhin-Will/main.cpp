@@ -1,139 +1,18 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
-// ------------------------ Transformações ------------------------
 float scaleVal = 1.0f;
 float angleDeg = 0.0f;
 float transX = 0.0f, transY = 0.0f;
 
-// ------------------------ Letras e espaçamento ------------------------
-const float letterW = 0.6f;
-const float letterH = 2.0f;
-const float spacing = 0.15f;
-int nLetters = 6;  // número de letras do nome
-
-float halfHeight = letterH / 2.0f;
-
-// ------------------------ Limites do mundo ------------------------
-const float worldLimit = 3.0f;
-
-// ------------------------ Cores ------------------------
-const float colorR = 0.0f, colorG = 1.0f, colorB = 0.0f;
-const float bgR = 0.0f, bgG = 0.0f, bgB = 0.7f;
-
-// ------------------------ Escala mínima e máxima ------------------------
 const float minScale = 0.2f;
 const float maxScale = 5.0f;
 
-// ------------------------ Funções de desenho das letras ------------------------
-void drawM(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    glBegin(GL_LINES);
-        glVertex2f(l, b); glVertex2f(l, t);
-        glVertex2f(l, t); glVertex2f(0.0f, 0.0f);
-        glVertex2f(0.0f, 0.0f); glVertex2f(r, t);
-        glVertex2f(r, t); glVertex2f(r, b);
-    glEnd();
-}
+const float nameWidth = 0.7f;
+const float nameHeight = 0.2f;
 
-void drawA(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    glBegin(GL_LINES);
-        glVertex2f(l, b); glVertex2f(0.0f, t);
-        glVertex2f(0.0f, t); glVertex2f(r, b);
-        glVertex2f(l + w*0.15f, 0.0f); glVertex2f(r - w*0.15f, 0.0f);
-    glEnd();
-}
-
-void drawR(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    float midY = 0.0f;
-    glBegin(GL_LINES);
-        glVertex2f(l, b); glVertex2f(l, t);
-        glVertex2f(l, t); glVertex2f(r - w*0.05f, t);
-        glVertex2f(r - w*0.05f, t); glVertex2f(r - w*0.05f, midY + h*0.05f);
-        glVertex2f(r - w*0.05f, midY + h*0.05f); glVertex2f(l + w*0.05f, midY);
-        glVertex2f(l + w*0.05f, midY); glVertex2f(r, b);
-    glEnd();
-}
-
-void drawC(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    glBegin(GL_LINES);
-        glVertex2f(r, t - h*0.1f); glVertex2f(l, t - h*0.1f);
-        glVertex2f(l, t - h*0.1f); glVertex2f(l, b + h*0.1f);
-        glVertex2f(l, b + h*0.1f); glVertex2f(r, b + h*0.1f);
-    glEnd();
-}
-
-void drawO(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    glBegin(GL_LINE_LOOP);
-        glVertex2f(l, b); glVertex2f(l, t);
-        glVertex2f(r, t); glVertex2f(r, b);
-    glEnd();
-}
-
-void drawS(void) {
-    float w = letterW, h = letterH;
-    float l = -w/2.0f, r = w/2.0f, t = h/2.0f, b = -h/2.0f;
-    float midY = 0.0f;
-    glBegin(GL_LINES);
-        glVertex2f(r, t); glVertex2f(l, t);
-        glVertex2f(l, t); glVertex2f(l, midY);
-        glVertex2f(l, midY); glVertex2f(r, midY);
-        glVertex2f(r, midY); glVertex2f(r, b);
-        glVertex2f(r, b); glVertex2f(l, b);
-    glEnd();
-}
-
-// ------------------------ Função de desenho do nome ------------------------
-void drawName(void) {
-    glColor3f(colorR, colorG, colorB);
-    glLineWidth(6.0f);
-
-    // Array de funções para as letras
-    void (*letters[])(void) = { drawM, drawA, drawR, drawC, drawO, drawS };
-
-    float halfTotalWidthDynamic = (nLetters * letterW + (nLetters - 1) * spacing) / 2.0f;
-    float startX = -halfTotalWidthDynamic + letterW/2.0f;
-
-    for (int i = 0; i < nLetters; i++) {
-        glPushMatrix();
-            glTranslatef(startX + i * (letterW + spacing), 0.0f, 0.0f);
-            letters[i]();
-        glPopMatrix();
-    }
-}
-
-// ------------------------ Limita a translação para não sair da tela ------------------------
-void clampTranslation(void) {
-    float halfTotalWidthDynamic = (nLetters * letterW + (nLetters - 1) * spacing) / 2.0f;
-    float halfHScaled = halfHeight * scaleVal;
-    float halfWScaled = halfTotalWidthDynamic * scaleVal;
-
-    float maxTx = worldLimit - halfWScaled;
-    if (maxTx < 0.0f) maxTx = 0.0f;
-
-    float maxTy = worldLimit - halfHScaled;
-    if (maxTy < 0.0f) maxTy = 0.0f;
-
-    if (transX > maxTx) transX = maxTx;
-    if (transX < -maxTx) transX = -maxTx;
-
-    if (transY > maxTy) transY = maxTy;
-    if (transY < -maxTy) transY = -maxTy;
-}
-
-// ------------------------ Callbacks ------------------------
-void displayCallback(void) {
+void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
@@ -143,26 +22,56 @@ void displayCallback(void) {
     glRotatef(angleDeg, 0.0f, 0.0f, 1.0f);
     glScalef(scaleVal, scaleVal, 1.0f);
 
-    drawName();
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glLineWidth(2.0f);
+
+    glBegin(GL_LINES);
+
+        glVertex2f(0.0f, -0.1f); glVertex2f(0.0f, 0.1f);
+        glVertex2f(0.0f, 0.1f);  glVertex2f(0.05f, 0.0f);
+        glVertex2f(0.05f, 0.0f); glVertex2f(0.1f, 0.1f);
+        glVertex2f(0.1f, 0.1f);  glVertex2f(0.1f, -0.1f);
+
+        glVertex2f(0.15f, -0.1f); glVertex2f(0.2f, 0.1f);
+        glVertex2f(0.2f, 0.1f);   glVertex2f(0.25f, -0.1f);
+        glVertex2f(0.17f, 0.0f);  glVertex2f(0.23f, 0.0f);
+
+        glVertex2f(0.3f, -0.1f);  glVertex2f(0.3f, 0.1f);
+        glVertex2f(0.3f, 0.1f);   glVertex2f(0.35f, 0.1f);
+        glVertex2f(0.35f, 0.1f);  glVertex2f(0.35f, 0.0f);
+        glVertex2f(0.35f, 0.0f);  glVertex2f(0.3f, 0.0f);
+        glVertex2f(0.3f, 0.0f);   glVertex2f(0.36f, -0.1f);
+
+        glVertex2f(0.45f, 0.1f);  glVertex2f(0.4f, 0.1f);
+        glVertex2f(0.4f, 0.1f);   glVertex2f(0.4f, -0.1f);
+        glVertex2f(0.4f, -0.1f);  glVertex2f(0.45f, -0.1f);
+
+        glVertex2f(0.5f, -0.1f);  glVertex2f(0.5f, 0.1f);
+        glVertex2f(0.5f, 0.1f);   glVertex2f(0.6f, 0.1f);
+        glVertex2f(0.6f, 0.1f);   glVertex2f(0.6f, -0.1f);
+        glVertex2f(0.6f, -0.1f);  glVertex2f(0.5f, -0.1f);
+
+        glVertex2f(0.65f, 0.1f);  glVertex2f(0.7f, 0.1f);
+        glVertex2f(0.65f, 0.1f);  glVertex2f(0.65f, 0.0f);
+        glVertex2f(0.65f, 0.0f);  glVertex2f(0.7f, 0.0f);
+        glVertex2f(0.7f, 0.0f);   glVertex2f(0.7f, -0.1f);
+        glVertex2f(0.65f, -0.1f); glVertex2f(0.7f, -0.1f);
+    glEnd();
 
     glFlush();
 }
 
-void reshapeCallback(int w, int h) {
+void reshape(int w, int h) {
     if (h == 0) h = 1;
     glViewport(0, 0, w, h);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(-worldLimit, worldLimit, -worldLimit, worldLimit);
-
+    gluOrtho2D(-0.2, 0.9, -0.25, 0.25);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    glutPostRedisplay();
 }
 
-void keyboardCallback(unsigned char key, int x, int y) {
+void keyboard(unsigned char key, int x, int y) {
     int changed = 0;
     switch (key) {
         case '+':
@@ -186,46 +95,51 @@ void keyboardCallback(unsigned char key, int x, int y) {
             changed = 1;
             break;
         case 'a': case 'A':
-            transX -= 0.15f;
+            transX -= 0.05f;
             changed = 1;
             break;
         case 'd': case 'D':
-            transX += 0.15f;
+            transX += 0.05f;
             changed = 1;
             break;
         case 'w': case 'W':
-            transY += 0.15f;
+            transY += 0.05f;
             changed = 1;
             break;
         case 's': case 'S':
-            transY -= 0.15f;
+            transY -= 0.05f;
             changed = 1;
             break;
-        case 27:  // ESC
+        case 27:
             scaleVal = 1.0f; angleDeg = 0.0f; transX = 0.0f; transY = 0.0f;
             changed = 1;
             break;
     }
 
-    if (changed) {
-        clampTranslation();
-        glutPostRedisplay();
-    }
+    float halfVisibleWidth = (0.9f + 0.2f) / 2.0f;
+    float halfVisibleHeight = (0.25f + 0.25f) / 2.0f;
+    float halfNameWidth = (nameWidth * scaleVal) / 2.0f;
+    float halfNameHeight = (nameHeight * scaleVal) / 2.0f;
+
+    if (transX > halfVisibleWidth - halfNameWidth) transX = halfVisibleWidth - halfNameWidth;
+    if (transX < -halfVisibleWidth + halfNameWidth) transX = -halfVisibleWidth + halfNameWidth;
+    if (transY > halfVisibleHeight - halfNameHeight) transY = halfVisibleHeight - halfNameHeight;
+    if (transY < -halfVisibleHeight + halfNameHeight) transY = -halfVisibleHeight + halfNameHeight;
+
+    if (changed) glutPostRedisplay();
 }
 
-// ------------------------ Main ------------------------
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(1000, 700);
     glutInitWindowPosition(200, 100);
-    glutCreateWindow("MARCOS - Transformacoes Afins (C puro)");
-
-    glClearColor(bgR, bgG, bgB, 1.0f);
-
-    glutDisplayFunc(displayCallback);
-    glutReshapeFunc(reshapeCallback);
-    glutKeyboardFunc(keyboardCallback);
+    glutCreateWindow("MARCOS");
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutKeyboardFunc(keyboard);
 
     printf("Controles:\n");
     printf("  + / - : aumenta/diminui escala\n");

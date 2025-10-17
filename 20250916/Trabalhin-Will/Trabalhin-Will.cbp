@@ -35,11 +35,11 @@
 			<Add directory="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/include" />
 		</Compiler>
 		<Linker>
-			<Add library="freeglut" />
 			<Add library="opengl32" />
 			<Add library="glu32" />
 			<Add library="winmm" />
 			<Add library="gdi32" />
+			<Add library="C:/Program Files/CodeBlocks/MinGW/lib/libfreeglut.a" />
 			<Add directory="C:/Users/1579681/Documents/GitHub/Projetos-de-Mod-3D---Aulas/freeglut/freeglut/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
