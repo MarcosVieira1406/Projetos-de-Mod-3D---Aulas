@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1760674595 source:c:\users\mesur\onedrive\documentos\github\projetos-de-mod-3d---aulas\20251016\animaçãocolisão\main.cpp
+	<windows.h>
+	<GL/freeglut.h>
+	<stdio.h>
+	<math.h>
+
