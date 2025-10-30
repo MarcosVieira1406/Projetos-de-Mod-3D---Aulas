@@ -5,3 +5,27 @@
 	<stdio.h>
 	<math.h>
 
+1761861584 source:c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\20251016\animaçãocolisão\main.cpp
+	<windows.h>
+	<GL/freeglut.h>
+	<stdio.h>
+	<math.h>
+
+1761861584 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1761861584 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1761861584 c:\users\1579681\documents\github\projetos-de-mod-3d---aulas\freeglut\freeglut\include\gl\freeglut_ext.h
+	<stdarg.h>
+
